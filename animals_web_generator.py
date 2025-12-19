@@ -19,20 +19,22 @@ for animal in animals_data:
     animals_info += '<li class="cards__item">'
 
     if "name" in animal:
-        animals_info += f"Name: {animal['name']}<br/>\n"
+        animals_info += f' <div class="card__title"> {animal['name']}</div>\n'
 
+    animals_info += '<p class="card__text">'
     characteristics = animal.get("characteristics", {})
 
     if "diet" in characteristics:
-        animals_info += f"Diet: {characteristics['diet']}<br/>\n"
+        animals_info += f"<strong>Diet:</strong> {characteristics['diet']}<br/>\n"
 
     if "locations" in animal and len(animal["locations"]) > 0:
-        animals_info += f"Locations: {animal['locations'][0]}<br/>\n"
+        animals_info += f"<strong>Locations:</strong> {animal['locations'][0]}<br/>\n"
 
     if "type" in characteristics:
-        animals_info += f"Type: {characteristics['type']}<br/>\n"
+        animals_info += f"<strong>Type:</strong> {characteristics['type']}<br/>\n"
 
-    animals_info += '</li>'
+    animals_info += '</p>\n'
+    animals_info += '</li>\n'
 
     print()
 
