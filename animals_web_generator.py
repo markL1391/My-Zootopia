@@ -16,19 +16,23 @@ with open("animals_template.html", "r") as file:
 animals_info = ""
 
 for animal in animals_data:
+    animals_info += '<li class="cards__item">'
+
     if "name" in animal:
-        animals_info += f"Name: {animal['name']}\n"
+        animals_info += f"Name: {animal['name']}<br/>\n"
 
     characteristics = animal.get("characteristics", {})
 
     if "diet" in characteristics:
-        animals_info += f"Diet: {characteristics['diet']}\n"
+        animals_info += f"Diet: {characteristics['diet']}<br/>\n"
 
     if "locations" in animal and len(animal["locations"]) > 0:
-        animals_info += f"Locations: {animal['locations'][0]}\n"
+        animals_info += f"Locations: {animal['locations'][0]}<br/>\n"
 
     if "type" in characteristics:
-        animals_info += f"Type: {characteristics['type']}\n"
+        animals_info += f"Type: {characteristics['type']}<br/>\n"
+
+    animals_info += '</li>'
 
     print()
 
