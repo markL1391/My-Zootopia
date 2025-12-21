@@ -14,44 +14,53 @@ def serialize_animal(animal):
 
     # Title.
     if "name" in animal:
-        output += f' <div class="card__title"> {animal["name"]}</div>\n'
+        output += f'<div class="card__title"> {animal["name"]}</div>\n'
 
-    output += '<p class="card__text">'
+    output += '<div class="card__text">\n'
+    output += '<ul class="card__list">\n'
 
     characteristics = animal.get("characteristics", {})
 
     # Diet.
     if "diet" in characteristics:
-        output += f"<strong>Diet:</strong> {characteristics['diet']}<br/>\n"
+        output += ('<li class="card__list-item">'
+                  f"<strong>Diet:</strong> {characteristics['diet']}</li>\n")
 
     # Locations (first one).
     if "locations" in animal and len(animal["locations"]) > 0:
-        output += f"<strong>Locations:</strong> {animal['locations'][0]}<br/>\n"
+        output += ('<li class="card__list-item">'
+                   f"<strong>Locations:</strong> {animal['locations'][0]}</li>\n")
 
     # Type.
     if "type" in characteristics:
-        output += f"<strong>Type:</strong> {characteristics['type']}<br/>\n"
+        output += ('<li class="card__list-item">'
+                  f"<strong>Type:</strong> {characteristics['type']}</li>\n")
 
     taxonomy = animal.get("taxonomy", {})
 
     # Scientific name.
     if "scientific_name" in taxonomy:
-        output += f"<strong>Scientific name:</strong> {taxonomy['scientific_name']}<br/>\n"
+        output += ('<li class="card__list-item">'
+                  f"<strong>Scientific name:</strong> {taxonomy['scientific_name']}</li>\n")
 
     # Lifespan.
     if "lifespan" in characteristics:
-        output += f"<strong>Lifespan:</strong> {characteristics['lifespan']}<br/>\n"
+        output += ('<li class="card__list-item">'
+                   f"<strong>Lifespan:</strong> {characteristics['lifespan']}</li>\n")
 
     # Color.
     if "color" in characteristics:
-        output += f"<strong>Color:</strong> {characteristics['color']}<br/>\n"
+        output += ('<li class="card__list-item">'
+                   f"<strong>Color:</strong> {characteristics['color']}</li>\n")
+
+    output += '  </ul>\n'
 
     # Slogan
     if "slogan" in characteristics:
-        output += f'  <p class="card__slogan">{characteristics["slogan"]}</p>\n'
+        output += f'<p class="card__slogan">{characteristics["slogan"]}</p>\n'
 
     # Close text container and card.
-    output += '</p>\n'
+    output += '  </div>\n'
     output += '</li>\n'
 
     return output
