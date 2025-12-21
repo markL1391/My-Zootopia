@@ -32,6 +32,25 @@ def serialize_animal(animal):
     if "type" in characteristics:
         output += f"<strong>Type:</strong> {characteristics['type']}<br/>\n"
 
+    taxonomy = animal.get("taxonomy", {})
+
+    # Scientific name.
+    if "scientific_name" in taxonomy:
+        output += f"<strong>Scientific name:</strong> {taxonomy['scientific_name']}<br/>\n"
+
+    # Lifespan.
+    if "lifespan" in characteristics:
+        output += f"<strong>Lifespan:</strong> {characteristics['lifespan']}<br/>\n"
+
+    # Color.
+    if "color" in characteristics:
+        output += f"<strong>Color:</strong> {characteristics['color']}<br/>\n"
+
+    # Slogan
+    if "slogan" in characteristics:
+        output += f'  <p class="card__slogan">{characteristics["slogan"]}</p>\n'
+
+    # Close text container and card.
     output += '</p>\n'
     output += '</li>\n'
 
