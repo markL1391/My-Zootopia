@@ -5,6 +5,22 @@ def load_data(file_path):
   with open(file_path, "r") as handle:
     return json.load(handle)
 
+def load_template(file_path):
+    """ Loads and returns the HTML template. """
+    with open(file_path, "r") as file:
+        return file.read()
+
+def write_html(file_path, content):
+    """ Writes the given content to an HTML file. """
+    with open(file_path, "w") as file:
+        file.write(content)
+
+def add_if_exists(source_dict, key, label):
+    """ Returns a formatted list item if key exists in source_dict, else empty string. """
+    if key in source_dict:
+        return ('<li class="card__list-item">'
+                  f"<strong>{label}:</strong> {source_dict[key]}</li>\n")
+    return ""
 
 def serialize_animal(animal):
     """Serializes a single animal object into an HTML list item."""
@@ -20,38 +36,24 @@ def serialize_animal(animal):
     output += '<ul class="card__list">\n'
 
     characteristics = animal.get("characteristics", {})
+    taxonomy = animal.get("taxonomy", {})
 
     # Diet.
-    if "diet" in characteristics:
-        output += ('<li class="card__list-item">'
-                  f"<strong>Diet:</strong> {characteristics['diet']}</li>\n")
+    output += add_if_exists(characteristics, "diet", "Diet")
+    # Type.
+    output += add_if_exists(characteristics, "type", "Type")
+    # Scientific name.
+    output += add_if_exists(taxonomy, "scientific_name", "Scientific name")
+    # Lifespan.
+    output += add_if_exists(characteristics, "lifespan", "Lifespan")
+    # Color.
+    output += add_if_exists(characteristics, "color", "Color")
+
 
     # Locations (first one).
     if "locations" in animal and len(animal["locations"]) > 0:
         output += ('<li class="card__list-item">'
                    f"<strong>Locations:</strong> {animal['locations'][0]}</li>\n")
-
-    # Type.
-    if "type" in characteristics:
-        output += ('<li class="card__list-item">'
-                  f"<strong>Type:</strong> {characteristics['type']}</li>\n")
-
-    taxonomy = animal.get("taxonomy", {})
-
-    # Scientific name.
-    if "scientific_name" in taxonomy:
-        output += ('<li class="card__list-item">'
-                  f"<strong>Scientific name:</strong> {taxonomy['scientific_name']}</li>\n")
-
-    # Lifespan.
-    if "lifespan" in characteristics:
-        output += ('<li class="card__list-item">'
-                   f"<strong>Lifespan:</strong> {characteristics['lifespan']}</li>\n")
-
-    # Color.
-    if "color" in characteristics:
-        output += ('<li class="card__list-item">'
-                   f"<strong>Color:</strong> {characteristics['color']}</li>\n")
 
     output += '  </ul>\n'
 
@@ -65,28 +67,31 @@ def serialize_animal(animal):
 
     return output
 
-
-def main():
-    """Main program flow."""
-
-    # Load animal data
-    animals_data = load_data('animals_data.json')
-
-    # Read HTML template
-    with open("animals_template.html", "r") as file:
-        template_html = file.read()
-
+def generate_animals_info(animals_data):
+    """ Generates HTML for all animals. """
     animals_info = ""
-
     for animal in animals_data:
         animals_info += serialize_animal(animal)
+    return animals_info
+
+
+def main():
+    """
+    This program generates an HTML file displaying information about various animals
+    by loading data from a JSON file and populating an HTML template.
+    """
+
+    # Load animal data.
+    animals_data = load_data('animals_data.json')
+    template_html = load_template("animals_template.html")
+
 
     # Replace placeholder in template
+    animals_info = generate_animals_info(animals_data)
     final_html = template_html.replace("__REPLACE_ANIMALS_INFO__", animals_info)
 
     # Write final HTMl file
-    with open("animals.html", "w") as file:
-        file.write(final_html)
+    write_html("animals.html", final_html)
 
 if __name__ == "__main__":
     main()
